@@ -16,77 +16,83 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body class="bg-slate-50">
-    <!-- Aquí es donde React insertará todo nuestro Dashboard -->
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState } = React;
 
-        // --- ICONOS (Reemplazo gráfico de lucide-react para web nativa) ---
+        // --- ICONOS ---
         const BarChart = ({size=24, className=""}) => (<svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>);
         const Users = ({size=24, className=""}) => (<svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>);
         const Clock = ({size=24, className=""}) => (<svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>);
-        const AlertTriangle = ({size=24, className=""}) => (<svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>);
         const Calendar = ({size=24, className=""}) => (<svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>);
         const Activity = ({size=24, className=""}) => (<svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>);
+        const PhoneCall = ({size=24, className=""}) => (<svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>);
+        const Lightbulb = ({size=24, className=""}) => (<svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>);
 
-        // --- DATOS ESTADÍSTICOS CONSOLIDADOS ---
+        // --- DATOS ---
         const monthlyData = [
-          { month: 'Ene 25', occupancy: 30, freeTime: 42 },
-          { month: 'Feb 25', occupancy: 32, freeTime: 41 },
-          { month: 'Mar 25', occupancy: 33, freeTime: 40 },
-          { month: 'Abr 25', occupancy: 33, freeTime: 40 },
-          { month: 'May 25', occupancy: 33, freeTime: 40 },
-          { month: 'Jun 25', occupancy: 27, freeTime: 44 },
-          { month: 'Jul 25', occupancy: 36, freeTime: 38 },
-          { month: 'Ago 25', occupancy: 32, freeTime: 41 },
-          { month: 'Sep 25', occupancy: 33, freeTime: 40 },
-          { month: 'Oct 25', occupancy: 35, freeTime: 39 },
-          { month: 'Nov 25', occupancy: 28, freeTime: 43 },
-          { month: 'Dic 25', occupancy: 23, freeTime: 46 },
-          { month: 'Ene 26', occupancy: 26, freeTime: 44 },
-          { month: 'Feb 26', occupancy: 25, freeTime: 45 }
+          { month: 'Ene 25', occupancy: 30, freeTime: 42, calls: 23529 },
+          { month: 'Feb 25', occupancy: 32, freeTime: 41, calls: 20233 },
+          { month: 'Mar 25', occupancy: 33, freeTime: 40, calls: 21246 },
+          { month: 'Abr 25', occupancy: 33, freeTime: 40, calls: 21097 },
+          { month: 'May 25', occupancy: 33, freeTime: 40, calls: 19856 },
+          { month: 'Jun 25', occupancy: 27, freeTime: 44, calls: 17252 },
+          { month: 'Jul 25', occupancy: 36, freeTime: 38, calls: 19842 },
+          { month: 'Ago 25', occupancy: 32, freeTime: 41, calls: 18825 },
+          { month: 'Sep 25', occupancy: 33, freeTime: 40, calls: 18685 },
+          { month: 'Oct 25', occupancy: 35, freeTime: 39, calls: 19933 },
+          { month: 'Nov 25', occupancy: 28, freeTime: 43, calls: 15839 },
+          { month: 'Dic 25', occupancy: 23, freeTime: 46, calls: 14818 },
+          { month: 'Ene 26', occupancy: 26, freeTime: 44, calls: 15161 },
+          { month: 'Feb 26', occupancy: 25, freeTime: 45, calls: 13467 }
         ];
 
         const hourlyData = [
-          { time: '07:00', occupancy: 15, freeTime: 51 },
-          { time: '08:00', occupancy: 25, freeTime: 45 },
-          { time: '09:00', occupancy: 38, freeTime: 37 },
-          { time: '10:00', occupancy: 36, freeTime: 38 },
-          { time: '11:00', occupancy: 38, freeTime: 37 },
-          { time: '12:00', occupancy: 36, freeTime: 38 },
-          { time: '13:00', occupancy: 34, freeTime: 40 },
-          { time: '14:00', occupancy: 36, freeTime: 38 },
-          { time: '15:00', occupancy: 38, freeTime: 37 },
-          { time: '16:00', occupancy: 35, freeTime: 39 },
-          { time: '17:00', occupancy: 38, freeTime: 37 },
-          { time: '18:00', occupancy: 25, freeTime: 45 },
-          { time: '19:00', occupancy: 14, freeTime: 52 },
-          { time: '20:00', occupancy: 7, freeTime: 56 },
+          { time: '07:00', occupancy: 15, freeTime: 51, calls: 450, agents: 18, dailyAvg: 18 },
+          { time: '08:00', occupancy: 25, freeTime: 45, calls: 900, agents: 20, dailyAvg: 36 },
+          { time: '09:00', occupancy: 38, freeTime: 37, calls: 1600, agents: 20, dailyAvg: 64 },
+          { time: '10:00', occupancy: 36, freeTime: 38, calls: 2000, agents: 25, dailyAvg: 80 },
+          { time: '11:00', occupancy: 38, freeTime: 37, calls: 2100, agents: 26, dailyAvg: 84 },
+          { time: '12:00', occupancy: 36, freeTime: 38, calls: 2050, agents: 25, dailyAvg: 82 },
+          { time: '13:00', occupancy: 34, freeTime: 40, calls: 1900, agents: 24, dailyAvg: 76 },
+          { time: '14:00', occupancy: 36, freeTime: 38, calls: 1750, agents: 24, dailyAvg: 70 },
+          { time: '15:00', occupancy: 38, freeTime: 37, calls: 1550, agents: 24, dailyAvg: 62 },
+          { time: '16:00', occupancy: 35, freeTime: 39, calls: 1400, agents: 24, dailyAvg: 56 },
+          { time: '17:00', occupancy: 38, freeTime: 37, calls: 1100, agents: 18, dailyAvg: 44 },
+          { time: '18:00', occupancy: 25, freeTime: 45, calls: 700, agents: 18, dailyAvg: 28 },
+          { time: '19:00', occupancy: 14, freeTime: 52, calls: 400, agents: 18, dailyAvg: 16 },
+          { time: '20:00', occupancy: 7, freeTime: 56, calls: 200, agents: 17, dailyAvg: 8 },
         ];
 
+        // DATOS ACTUALIZADOS: Agregamos volumen estimado de llamadas (c1, c2, c3) por mes/tercil
         const tercilData = [
-          { month: 'Ene 25', t1: 46, t2: 58, t3: 29 },
-          { month: 'Feb 25', t1: 56, t2: 58, t3: 30 },
-          { month: 'Mar 25', t1: 54, t2: 61, t3: 37 },
-          { month: 'Abr 25', t1: 57, t2: 60, t3: 31 },
-          { month: 'May 25', t1: 59, t2: 61, t3: 28 },
-          { month: 'Jun 25', t1: 46, t2: 54, t3: 25 },
-          { month: 'Jul 25', t1: 63, t2: 69, t3: 32 },
-          { month: 'Ago 25', t1: 52, t2: 63, t3: 31 },
-          { month: 'Sep 25', t1: 61, t2: 64, t3: 28 },
-          { month: 'Oct 25', t1: 64, t2: 67, t3: 26 },
-          { month: 'Nov 25', t1: 50, t2: 55, t3: 21 },
-          { month: 'Dic 25', t1: 41, t2: 45, t3: 18 },
-          { month: 'Ene 26', t1: 46, t2: 53, t3: 18 },
-          { month: 'Feb 26', t1: 44, t2: 52, t3: 19 }
+          { month: 'Ene 25', t1: 46, t2: 58, t3: 29, c1: 9400, c2: 11050, c3: 3079 },
+          { month: 'Feb 25', t1: 56, t2: 58, t3: 30, c1: 8100, c2: 9500, c3: 2633 },
+          { month: 'Mar 25', t1: 54, t2: 61, t3: 37, c1: 8500, c2: 10000, c3: 2746 },
+          { month: 'Abr 25', t1: 57, t2: 60, t3: 31, c1: 8400, c2: 9900, c3: 2797 },
+          { month: 'May 25', t1: 59, t2: 61, t3: 28, c1: 7900, c2: 9300, c3: 2656 },
+          { month: 'Jun 25', t1: 46, t2: 54, t3: 25, c1: 6900, c2: 8100, c3: 2252 },
+          { month: 'Jul 25', t1: 63, t2: 69, t3: 32, c1: 7900, c2: 9300, c3: 2642 },
+          { month: 'Ago 25', t1: 52, t2: 63, t3: 31, c1: 7500, c2: 8800, c3: 2525 },
+          { month: 'Sep 25', t1: 61, t2: 64, t3: 28, c1: 7400, c2: 8800, c3: 2485 },
+          { month: 'Oct 25', t1: 64, t2: 67, t3: 26, c1: 8000, c2: 9300, c3: 2633 },
+          { month: 'Nov 25', t1: 50, t2: 55, t3: 21, c1: 6300, c2: 7400, c3: 2139 },
+          { month: 'Dic 25', t1: 41, t2: 45, t3: 18, c1: 5900, c2: 6900, c3: 2018 },
+          { month: 'Ene 26', t1: 46, t2: 53, t3: 18, c1: 6000, c2: 7100, c3: 2061 },
+          { month: 'Feb 26', t1: 44, t2: 52, t3: 19, c1: 5400, c2: 6300, c3: 1767 }
         ];
 
-        // Funciones genéricas de escalado
+        // NUEVO DATA: Totales Acumulados y Promedios Históricos por Tercil
+        const tercilSummary = [
+          { name: 'T1 (Mañana)', calls: 103452, agents: 21, color: '#f59e0b' },
+          { name: 'T2 (Mixto)', calls: 122815, agents: 23, color: '#3b82f6' },
+          { name: 'T3 (Tarde/Noche)', calls: 33516, agents: 15, color: '#ef4444' }
+        ];
+
         const getYOcc = (val) => 240 - (val / 100) * 180;
         const getYFree = (val) => 240 - (val / 60) * 180;
 
-        // Componente Tarjeta KPI
         const KpiCard = ({ title, value, subtitle, icon: Icon, colorClass }) => (
           <div className="bg-white rounded-xl shadow-sm p-6 border border-slate-100 flex items-start space-x-4">
             <div className={`p-3 rounded-lg ${colorClass}`}>
@@ -100,7 +106,7 @@
           </div>
         );
 
-        // Componente Gráfica Mensual
+        // --- COMPONENTE: Gráfica Mensual (Ocupación) ---
         const MonthlyChart = () => {
           const maxPoints = monthlyData.length - 1;
           const getX = (index) => (index / maxPoints) * 900 + 50; 
@@ -109,7 +115,7 @@
           const freePoints = monthlyData.map((d, i) => `${getX(i)},${getYFree(d.freeTime)}`).join(' ');
 
           return (
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 mt-6 w-full">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 w-full">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-bold text-slate-800">Tendencia General: Ocupación vs Tiempo Libre</h3>
                 <div className="flex space-x-4 text-sm">
@@ -149,7 +155,52 @@
           );
         };
 
-        // Componente Gráfica por Hora
+        // --- COMPONENTE: Gráfica de Volumen de Llamadas Mensual ---
+        const CallsChart = () => {
+          const maxPoints = monthlyData.length - 1;
+          const getX = (index) => (index / maxPoints) * 900 + 50; 
+          const maxCalls = 25000;
+          const getYCalls = (val) => 240 - (val / maxCalls) * 180; 
+
+          return (
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 w-full">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-lg font-bold text-slate-800">Volumen Histórico de Llamadas Atendidas</h3>
+                <div className="flex space-x-4 text-sm font-medium">
+                  <div className="flex items-center"><span className="w-3 h-3 bg-indigo-500 rounded-full mr-2"></span>Total Mensual</div>
+                </div>
+              </div>
+              
+              <div className="relative h-80 w-full">
+                <div className="absolute inset-y-0 left-0 flex flex-col justify-between pointer-events-none text-xs text-slate-400 font-semibold py-6 pb-12">
+                  <span>25,000</span><span>20,000</span><span>15,000</span><span>10,000</span><span>5,000</span><span>0</span>
+                </div>
+                
+                <div className="absolute inset-0 px-8">
+                  <svg viewBox="0 0 1000 300" preserveAspectRatio="none" className="w-full h-full overflow-visible">
+                    {monthlyData.map((d, i) => {
+                      const x = getX(i);
+                      const y = getYCalls(d.calls);
+                      const height = 240 - y; 
+                      
+                      return (
+                        <g key={i}>
+                          <text x={x} y="275" textAnchor="middle" className="text-[11px] fill-slate-500 font-medium select-none">{d.month}</text>
+                          <rect x={x - 16} y={y} width="32" height={height} fill="#6366f1" rx="4" className="transition-all hover:fill-indigo-400" />
+                          <text x={x} y={y - 10} textAnchor="middle" className="text-[10px] font-bold fill-indigo-700 select-none bg-white">
+                            {d.calls.toLocaleString()}
+                          </text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        // --- COMPONENTE: Gráfica por Hora (Ocupación) ---
         const HourlyChart = () => {
           const maxPoints = hourlyData.length - 1;
           const getX = (index) => (index / maxPoints) * 900 + 50; 
@@ -158,7 +209,7 @@
           const freePoints = hourlyData.map((d, i) => `${getX(i)},${getYFree(d.freeTime)}`).join(' ');
 
           return (
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 mt-6 w-full">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 w-full">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-bold text-slate-800">Tendencia por Hora: Ocupación vs Tiempo Libre</h3>
                 <div className="flex space-x-4 text-sm">
@@ -197,7 +248,202 @@
           );
         };
 
-        // Componente Gráfica por Terciles
+        // --- COMPONENTE MEJORADO: Gráfica de Volumen de Llamadas vs Agentes ---
+        const HourlyCallsChart = () => {
+          const maxPoints = hourlyData.length - 1;
+          const getX = (index) => (index / maxPoints) * 900 + 50; 
+          
+          const maxCalls = 2500;
+          const getYCalls = (val) => 240 - (val / maxCalls) * 180; 
+
+          const maxAgents = 30;
+          const getYAgents = (val) => 240 - (val / maxAgents) * 180;
+
+          const agentsPoints = hourlyData.map((d, i) => `${getX(i)},${getYAgents(d.agents)}`).join(' ');
+
+          return (
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 w-full">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-lg font-bold text-slate-800">Volumen de Llamadas vs Agentes Firmados</h3>
+                <div className="flex space-x-4 text-sm font-medium">
+                  <div className="flex items-center"><span className="w-3 h-3 bg-indigo-500 rounded-full mr-2"></span>Llamadas Promedio</div>
+                  <div className="flex items-center"><span className="w-3 h-3 bg-emerald-500 rounded-full mr-2"></span>Agentes Firmados</div>
+                </div>
+              </div>
+              
+              <div className="relative h-80 w-full">
+                <div className="absolute inset-y-0 left-0 flex flex-col justify-between pointer-events-none text-xs text-slate-400 font-semibold py-6 pb-12">
+                  <span>2,500</span><span>2,000</span><span>1,500</span><span>1,000</span><span>500</span><span>0</span>
+                </div>
+                <div className="absolute inset-y-0 right-0 flex flex-col justify-between pointer-events-none text-xs text-emerald-600 font-semibold py-6 pb-12 text-right">
+                  <span>30</span><span>24</span><span>18</span><span>12</span><span>6</span><span>0</span>
+                </div>
+                <div className="absolute inset-0 px-8">
+                  <svg viewBox="0 0 1000 300" preserveAspectRatio="none" className="w-full h-full overflow-visible">
+                    {hourlyData.map((d, i) => {
+                      const x = getX(i);
+                      const yCalls = getYCalls(d.calls);
+                      const heightCalls = 240 - yCalls;
+                      const isShortBar = heightCalls < 22;
+                      
+                      return (
+                        <g key={`bar-${i}`}>
+                          <text x={x} y="275" textAnchor="middle" className="text-[11px] fill-slate-500 font-medium select-none">{d.time}</text>
+                          <rect x={x - 18} y={yCalls} width="36" height={heightCalls} fill="#6366f1" rx="4" className="transition-all hover:fill-indigo-400" />
+                          <text 
+                            x={x} 
+                            y={isShortBar ? yCalls - 8 : yCalls + 15} 
+                            textAnchor="middle" 
+                            className={`text-[10px] font-bold select-none ${isShortBar ? 'fill-indigo-600' : 'fill-white'}`}
+                          >
+                            {d.calls.toLocaleString()}
+                          </text>
+                        </g>
+                      );
+                    })}
+                    <polyline fill="none" stroke="#10b981" strokeWidth="3" points={agentsPoints} />
+                    {hourlyData.map((d, i) => {
+                      const x = getX(i);
+                      const yAgents = getYAgents(d.agents);
+                      return (
+                        <g key={`agent-${i}`}>
+                          <circle cx={x} cy={yAgents} r="5" fill="#ffffff" stroke="#10b981" strokeWidth="2" />
+                          <rect x={x - 11} y={yAgents - 26} width="22" height="14" rx="4" fill="#10b981" />
+                          <text x={x} y={yAgents - 16} textAnchor="middle" className="text-[10px] font-bold fill-white select-none">{d.agents}</text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        // --- COMPONENTE: Gráfica de Promedio Diario de Llamadas por Hora ---
+        const HourlyDailyAvgChart = () => {
+          const maxPoints = hourlyData.length - 1;
+          const getX = (index) => (index / maxPoints) * 900 + 50; 
+          const maxDaily = 100;
+          const getY = (val) => 240 - (val / maxDaily) * 180; 
+
+          const points = hourlyData.map((d, i) => `${getX(i)},${getY(d.dailyAvg)}`).join(' ');
+          const areaPoints = `50,240 ${points} 950,240`;
+
+          return (
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 w-full">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-lg font-bold text-slate-800">Tendencia Diaria: Curva de Demanda Promedio</h3>
+                <div className="flex space-x-4 text-sm font-medium">
+                  <div className="flex items-center"><span className="w-3 h-3 bg-violet-500 rounded-full mr-2"></span>Llamadas por Día</div>
+                </div>
+              </div>
+              
+              <div className="relative h-80 w-full">
+                <div className="absolute inset-y-0 left-0 flex flex-col justify-between pointer-events-none text-xs text-slate-400 font-semibold py-6 pb-12">
+                  <span>100</span><span>75</span><span>50</span><span>25</span><span>0</span>
+                </div>
+                <div className="absolute inset-0 px-8">
+                  <svg viewBox="0 0 1000 300" preserveAspectRatio="none" className="w-full h-full overflow-visible">
+                    <polygon points={areaPoints} fill="#8b5cf6" opacity="0.1" />
+                    <polyline fill="none" stroke="#8b5cf6" strokeWidth="4" points={points} />
+                    {hourlyData.map((d, i) => {
+                      const x = getX(i);
+                      const y = getY(d.dailyAvg);
+                      return (
+                        <g key={`daily-${i}`}>
+                          <text x={x} y="275" textAnchor="middle" className="text-[11px] fill-slate-500 font-medium select-none">{d.time}</text>
+                          <circle cx={x} cy={y} r="6" fill="#ffffff" stroke="#8b5cf6" strokeWidth="2" />
+                          <text x={x} y={y - 15} textAnchor="middle" className="text-[11px] font-bold fill-violet-700 select-none bg-white">
+                            {d.dailyAvg}
+                          </text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        // --- NUEVO COMPONENTE: Resumen Acumulado por Tercil ---
+        const TercilSummaryChart = () => {
+          // Escala del eje Y (Llamadas Acumuladas) - Aumentada a 140k para dar "respiro" arriba
+          const maxCalls = 140000;
+          const getYCalls = (val) => 240 - (val / maxCalls) * 180;
+          
+          // Escala del eje Y derecho (Agentes Promedio) - Aumentada a 35
+          const maxAgents = 35;
+          const getYAgents = (val) => 240 - (val / maxAgents) * 180;
+
+          const agentsPoints = tercilSummary.map((d, i) => `${250 + i * 250},${getYAgents(d.agents)}`).join(' ');
+
+          return (
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 w-full">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-lg font-bold text-slate-800">Acumulado Histórico: Llamadas vs Agentes por Tercil</h3>
+                <div className="flex space-x-4 text-sm font-medium">
+                  <div className="flex items-center"><span className="w-3 h-3 bg-slate-300 rounded-full mr-2"></span>Llamadas Totales</div>
+                  <div className="flex items-center"><span className="w-3 h-3 bg-emerald-500 rounded-full mr-2"></span>Agentes Promedio</div>
+                </div>
+              </div>
+              
+              <div className="relative h-80 w-full">
+                {/* Eje Y Izquierdo (Llamadas Totales) */}
+                <div className="absolute inset-y-0 left-0 flex flex-col justify-between pointer-events-none text-xs text-slate-400 font-semibold py-6 pb-12">
+                  <span>140k</span><span>105k</span><span>70k</span><span>35k</span><span>0</span>
+                </div>
+
+                {/* Eje Y Derecho (Agentes) */}
+                <div className="absolute inset-y-0 right-0 flex flex-col justify-between pointer-events-none text-xs text-emerald-600 font-semibold py-6 pb-12 text-right">
+                  <span>35</span><span>28</span><span>21</span><span>14</span><span>7</span><span>0</span>
+                </div>
+                
+                <div className="absolute inset-0 px-8">
+                  <svg viewBox="0 0 1000 300" preserveAspectRatio="none" className="w-full h-full overflow-visible">
+                    
+                    {/* Línea conectora de agentes (sólida y elegante) */}
+                    <polyline fill="none" stroke="#10b981" strokeWidth="2" points={agentsPoints} opacity="0.6" />
+
+                    {tercilSummary.map((d, i) => {
+                      // Distribución equitativa: 250, 500, 750
+                      const x = 250 + i * 250; 
+                      const yCalls = getYCalls(d.calls);
+                      const heightCalls = 240 - yCalls;
+                      const yAgents = getYAgents(d.agents);
+                      
+                      return (
+                        <g key={`ts-${i}`}>
+                          <text x={x} y="275" textAnchor="middle" className="text-[13px] fill-slate-600 font-bold select-none">{d.name}</text>
+                          
+                          {/* Barras más estilizadas (más delgadas y redondeadas) */}
+                          <rect x={x - 35} y={yCalls} width="70" height={heightCalls} fill={d.color} rx="8" opacity="0.85" className="transition-all hover:opacity-100" />
+                          
+                          {/* Número de llamadas CENTRADO en la barra para evitar colisiones */}
+                          <text x={x} y={yCalls + (heightCalls / 2) + 5} textAnchor="middle" className="text-[13px] font-bold fill-white select-none drop-shadow-md">
+                            {d.calls.toLocaleString()}
+                          </text>
+
+                          {/* Píldoras Verdes de Agentes rediseñadas */}
+                          <circle cx={x} cy={yAgents} r="5" fill="#ffffff" stroke="#10b981" strokeWidth="2.5" />
+                          
+                          {/* Globito flotante mejor proporcionado */}
+                          <rect x={x - 18} y={yAgents - 30} width="36" height="20" rx="10" fill="#10b981" className="shadow-sm" />
+                          <text x={x} y={yAgents - 16} textAnchor="middle" className="text-[11px] font-bold fill-white select-none">
+                            {d.agents}
+                          </text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        // --- COMPONENTE: Gráfica por Terciles (Ocupación) ---
         const TercilChart = () => {
           const maxPoints = tercilData.length - 1;
           const getX = (index) => (index / maxPoints) * 900 + 50; 
@@ -207,9 +453,9 @@
           const t3Points = tercilData.map((d, i) => `${getX(i)},${getYOcc(d.t3)}`).join(' ');
 
           return (
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 mt-6 w-full">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 w-full">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-bold text-slate-800">Análisis por Terciles (Desempeño de Ocupación por Turnos)</h3>
+                <h3 className="text-lg font-bold text-slate-800">Tendencia Mensual: Desempeño de Ocupación por Turnos</h3>
                 <div className="flex space-x-4 text-sm font-medium">
                   <div className="flex items-center"><span className="w-3 h-3 bg-amber-500 rounded-full mr-2"></span>T1 (Mañana)</div>
                   <div className="flex items-center"><span className="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>T2 (Mixto)</div>
@@ -232,16 +478,10 @@
                     {tercilData.map((d, i) => (
                       <g key={i}>
                         <text x={getX(i)} y="275" textAnchor="middle" className="text-[11px] fill-slate-500 font-medium select-none">{d.month}</text>
-                        
-                        {/* T2 (Mixto) */}
                         <circle cx={getX(i)} cy={getYOcc(d.t2)} r="5" fill="#3b82f6" stroke="white" strokeWidth="2" />
                         <text x={getX(i)} y={getYOcc(d.t2) - 10} textAnchor="middle" className="text-[10px] font-bold fill-blue-600 select-none bg-white">{d.t2}%</text>
-                        
-                        {/* T1 (Mañana) */}
                         <circle cx={getX(i)} cy={getYOcc(d.t1)} r="5" fill="#f59e0b" stroke="white" strokeWidth="2" />
                         <text x={getX(i)} y={getYOcc(d.t1) + 15} textAnchor="middle" className="text-[10px] font-bold fill-amber-600 select-none bg-white">{d.t1}%</text>
-                        
-                        {/* T3 (Tarde/Noche) */}
                         <circle cx={getX(i)} cy={getYOcc(d.t3)} r="5" fill="#ef4444" stroke="white" strokeWidth="2" />
                         <text x={getX(i)} y={getYOcc(d.t3) + 18} textAnchor="middle" className="text-[10px] font-bold fill-red-600 select-none bg-white">{d.t3}%</text>
                       </g>
@@ -253,7 +493,68 @@
           );
         };
 
-        // App Principal
+        // --- NUEVO COMPONENTE: Gráfica de Tendencia de Llamadas por Terciles ---
+        const TercilCallsChart = () => {
+          const maxPoints = tercilData.length - 1;
+          const getX = (index) => (index / maxPoints) * 900 + 50; 
+          
+          const maxCalls = 12000;
+          const getY = (val) => 240 - (val / maxCalls) * 180; 
+
+          const c1Points = tercilData.map((d, i) => `${getX(i)},${getY(d.c1)}`).join(' ');
+          const c2Points = tercilData.map((d, i) => `${getX(i)},${getY(d.c2)}`).join(' ');
+          const c3Points = tercilData.map((d, i) => `${getX(i)},${getY(d.c3)}`).join(' ');
+
+          return (
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 w-full">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-lg font-bold text-slate-800">Tendencia Mensual: Volumen de Llamadas por Turnos</h3>
+                <div className="flex space-x-4 text-sm font-medium">
+                  <div className="flex items-center"><span className="w-3 h-3 bg-amber-500 rounded-full mr-2"></span>T1 (Mañana)</div>
+                  <div className="flex items-center"><span className="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>T2 (Mixto)</div>
+                  <div className="flex items-center"><span className="w-3 h-3 bg-red-500 rounded-full mr-2"></span>T3 (Tarde/Noche)</div>
+                </div>
+              </div>
+              
+              <div className="relative h-80 w-full">
+                <div className="absolute inset-y-0 left-0 flex flex-col justify-between pointer-events-none text-xs text-slate-400 font-semibold py-6 pb-12">
+                  <span>12k</span><span>9k</span><span>6k</span><span>3k</span><span>0</span>
+                </div>
+                
+                <div className="absolute inset-0 px-8">
+                  <svg viewBox="0 0 1000 300" preserveAspectRatio="none" className="w-full h-full overflow-visible">
+                    <polyline fill="none" stroke="#f59e0b" strokeWidth="3" points={c1Points} opacity="0.8" />
+                    <polyline fill="none" stroke="#3b82f6" strokeWidth="3" points={c2Points} />
+                    <polyline fill="none" stroke="#ef4444" strokeWidth="3" points={c3Points} />
+                    
+                    {tercilData.map((d, i) => {
+                      const x = getX(i);
+                      // Función para simplificar números (ej. 11050 -> 11.1k)
+                      const fmt = (v) => (v > 999 ? (v/1000).toFixed(1) + 'k' : v);
+
+                      return (
+                        <g key={`tcalls-${i}`}>
+                          <text x={x} y="275" textAnchor="middle" className="text-[11px] fill-slate-500 font-medium select-none">{d.month}</text>
+                          
+                          <circle cx={x} cy={getY(d.c2)} r="4" fill="#3b82f6" stroke="white" strokeWidth="2" />
+                          <text x={x} y={getY(d.c2) - 10} textAnchor="middle" className="text-[9px] font-bold fill-blue-600 select-none bg-white">{fmt(d.c2)}</text>
+                          
+                          <circle cx={x} cy={getY(d.c1)} r="4" fill="#f59e0b" stroke="white" strokeWidth="2" />
+                          <text x={x} y={getY(d.c1) + 14} textAnchor="middle" className="text-[9px] font-bold fill-amber-600 select-none bg-white">{fmt(d.c1)}</text>
+                          
+                          <circle cx={x} cy={getY(d.c3)} r="4" fill="#ef4444" stroke="white" strokeWidth="2" />
+                          <text x={x} y={getY(d.c3) + 14} textAnchor="middle" className="text-[9px] font-bold fill-red-600 select-none bg-white">{fmt(d.c3)}</text>
+                        </g>
+                      )
+                    })}
+                  </svg>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        // --- App Principal ---
         function App() {
           const [activeTab, setActiveTab] = useState('monthly');
 
@@ -261,7 +562,6 @@
             <div className="p-8 font-sans">
               <div className="max-w-7xl mx-auto">
                 
-                {/* HEADER */}
                 <div className="flex justify-between items-end mb-8">
                   <div>
                     <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Análisis de Ocupación de Planta</h1>
@@ -272,14 +572,12 @@
                   </div>
                 </div>
 
-                {/* KPIs */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                   <KpiCard title="Planta Actual" value="44" subtitle="" icon={Users} colorClass="bg-slate-700" />
                   <KpiCard title="Ocupación Promedio" value="30.4%" subtitle="" icon={BarChart} colorClass="bg-red-500" />
                   <KpiCard title="Tiempo Libre Promedio" value="42 min/hr" subtitle="Por cada agente conectado" icon={Clock} colorClass="bg-amber-500" />
                 </div>
 
-                {/* TABS */}
                 <div className="flex border-b border-slate-200 mb-6 space-x-2">
                   <button 
                     className={`px-6 py-3 font-medium text-sm transition-colors ${activeTab === 'monthly' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-slate-500 hover:text-slate-700'}`}
@@ -304,14 +602,66 @@
                   </button>
                 </div>
 
-                {/* CONTENEDOR DE GRÁFICAS */}
                 <div className="w-full mb-6">
-                  {activeTab === 'monthly' && <MonthlyChart />}
-                  {activeTab === 'hourly' && <HourlyChart />}
-                  {activeTab === 'tercils' && <TercilChart />}
+                  {activeTab === 'monthly' && (
+                    <div className="flex flex-col gap-4">
+                      <CallsChart />
+                      <MonthlyChart />
+                    </div>
+                  )}
+                  {activeTab === 'hourly' && (
+                    <div className="flex flex-col gap-4">
+                      <HourlyCallsChart />
+                      <HourlyDailyAvgChart />
+                      <HourlyChart />
+                    </div>
+                  )}
+                  {activeTab === 'tercils' && (
+                    <div className="flex flex-col gap-4">
+                      <TercilSummaryChart />
+                      <TercilCallsChart />
+                      <TercilChart />
+                    </div>
+                  )}
                 </div>
 
-                {/* LEYENDA EXPLICATIVA */}
+                {/* --- SECCIÓN DE CONCLUSIONES SIMPLIFICADA --- */}
+                <div className="bg-indigo-50 p-6 rounded-xl border border-indigo-100 shadow-sm mb-6">
+                  <h3 className="text-lg font-bold text-indigo-900 mb-4 flex items-center">
+                    <Lightbulb size={20} className="mr-2 text-indigo-600" />
+                    Nuestras Conclusiones
+                  </h3>
+                  <ul className="space-y-4">
+                    <li className="flex items-start">
+                      <span className="text-indigo-500 mr-2 font-bold text-lg leading-none">&bull;</span>
+                      <div>
+                        <h4 className="font-bold text-indigo-900 text-sm">Exceso de tiempos muertos</h4>
+                        <p className="text-indigo-800 text-sm leading-relaxed mt-1">
+                          Estamos utilizando solo el <strong>30.4%</strong> del tiempo de los agentes que conectamos. Esto significa que de cada hora, pasan 42 minutos sin recibir llamadas, lo que representa casi un <strong>70% de pérdida en nuestra productividad</strong>.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-indigo-500 mr-2 font-bold text-lg leading-none">&bull;</span>
+                      <div>
+                        <h4 className="font-bold text-indigo-900 text-sm">Desbalance en el turno de la Tarde/Noche</h4>
+                        <p className="text-indigo-800 text-sm leading-relaxed mt-1">
+                          En el Tercil 3 (tarde/noche) entra apenas una cuarta parte de las llamadas que recibimos a mediodía, pero seguimos teniendo en promedio a 15 agentes conectados. Esto hace que en ese horario nuestra ocupación se caiga a menos del 20%.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-indigo-500 mr-2 font-bold text-lg leading-none">&bull;</span>
+                      <div>
+                        <h4 className="font-bold text-indigo-900 text-sm">Oportunidad de ajuste de personal</h4>
+                        <p className="text-indigo-800 text-sm leading-relaxed mt-1">
+                          Vemos claramente que la cantidad de llamadas cae drásticamente después de las 2:00 p.m. Si alineamos la cantidad de asesores a esta curva, dejaremos de tener personal inactivo en el turno vespertino. Esto nos permitirá optimizar costos operativos y aprovechar mejor al equipo, logrando mantener sin problemas nuestro nivel de servicio al <strong>xx%</strong>.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
                 <div className="bg-blue-50/50 p-5 rounded-xl border border-blue-100 flex flex-col md:flex-row gap-6 text-sm text-slate-700 shadow-sm mb-8">
                   <div className="flex-1">
                     <h4 className="font-bold text-blue-800 flex items-center mb-2">
@@ -341,7 +691,6 @@
           );
         }
 
-        // Renderizado Final
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
