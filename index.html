@@ -33,20 +33,20 @@
 
         // --- DATOS ---
         const monthlyData = [
-          { month: 'Ene 25', occupancy: 30, occupiedTime: 18, calls: 23529, aht: 8.23 },
-          { month: 'Feb 25', occupancy: 32, occupiedTime: 19, calls: 20233, aht: 8.04 },
-          { month: 'Mar 25', occupancy: 33, occupiedTime: 20, calls: 21246, aht: 8.06 },
-          { month: 'Abr 25', occupancy: 33, occupiedTime: 20, calls: 21097, aht: 7.51 },
-          { month: 'May 25', occupancy: 33, occupiedTime: 20, calls: 19856, aht: 7.43 },
-          { month: 'Jun 25', occupancy: 27, occupiedTime: 16, calls: 17252, aht: 7.75 },
-          { month: 'Jul 25', occupancy: 36, occupiedTime: 22, calls: 19842, aht: 7.32 },
-          { month: 'Ago 25', occupancy: 32, occupiedTime: 19, calls: 18825, aht: 7.26 },
-          { month: 'Sep 25', occupancy: 33, occupiedTime: 20, calls: 18685, aht: 7.07 },
-          { month: 'Oct 25', occupancy: 35, occupiedTime: 21, calls: 19933, aht: 6.99 },
-          { month: 'Nov 25', occupancy: 28, occupiedTime: 17, calls: 15839, aht: 6.81 },
-          { month: 'Dic 25', occupancy: 23, occupiedTime: 14, calls: 14818, aht: 6.61 },
-          { month: 'Ene 26', occupancy: 26, occupiedTime: 16, calls: 15161, aht: 6.42 },
-          { month: 'Feb 26', occupancy: 25, occupiedTime: 15, calls: 13467, aht: 5.80 }
+          { month: 'Ene 25', occupancy: 30, occupiedTime: 18, calls: 23529, aht: 5.80 },
+          { month: 'Feb 25', occupancy: 32, occupiedTime: 19, calls: 20233, aht: 6.42 },
+          { month: 'Mar 25', occupancy: 33, occupiedTime: 20, calls: 21246, aht: 6.61 },
+          { month: 'Abr 25', occupancy: 33, occupiedTime: 20, calls: 21097, aht: 6.81 },
+          { month: 'May 25', occupancy: 33, occupiedTime: 20, calls: 19856, aht: 6.99 },
+          { month: 'Jun 25', occupancy: 27, occupiedTime: 16, calls: 17252, aht: 7.07 },
+          { month: 'Jul 25', occupancy: 36, occupiedTime: 22, calls: 19842, aht: 7.26 },
+          { month: 'Ago 25', occupancy: 32, occupiedTime: 19, calls: 18825, aht: 7.32 },
+          { month: 'Sep 25', occupancy: 33, occupiedTime: 20, calls: 18685, aht: 7.75 },
+          { month: 'Oct 25', occupancy: 35, occupiedTime: 21, calls: 19933, aht: 7.43 },
+          { month: 'Nov 25', occupancy: 28, occupiedTime: 17, calls: 15839, aht: 7.51 },
+          { month: 'Dic 25', occupancy: 23, occupiedTime: 14, calls: 14818, aht: 8.06 },
+          { month: 'Ene 26', occupancy: 26, occupiedTime: 16, calls: 15161, aht: 8.04 },
+          { month: 'Feb 26', occupancy: 25, occupiedTime: 15, calls: 13467, aht: 8.23 }
         ];
 
         const hourlyData = [
@@ -750,6 +750,15 @@
                         <h4 className="font-bold text-indigo-900 text-sm">Exceso de tiempos muertos</h4>
                         <p className="text-indigo-800 text-sm leading-relaxed mt-1">
                           Estamos utilizando solo el <strong>30.4%</strong> del tiempo de los agentes que conectamos. Esto significa que de cada hora, pasan apenas <strong>18 minutos activos atendiendo llamadas</strong>, lo que representa casi un <strong>70% de pérdida en nuestra productividad</strong>.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-indigo-500 mr-2 font-bold text-lg leading-none">&bull;</span>
+                      <div>
+                        <h4 className="font-bold text-indigo-900 text-sm">Incremento constante en el tiempo de atención</h4>
+                        <p className="text-indigo-800 text-sm leading-relaxed mt-1">
+                          A lo largo del último año, nuestras llamadas se han alargado de manera sostenida, pasando de <strong>5.8 minutos a 8.2 minutos</strong>. Este incremento nos indica que las llamadas son cada vez más complejas o existen áreas de mejora en las herramientas y procesos de los asesores.
                         </p>
                       </div>
                     </li>
